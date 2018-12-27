@@ -1,0 +1,12 @@
+h1 {
+  font-weight: bold;
+  font-size: 32px;
+}
+
+body{
+    background-image: url("background.jpg");
+}
+
+.container{
+      padding: 5px 15% 10px 15%;
+}

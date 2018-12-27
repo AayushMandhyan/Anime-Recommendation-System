@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>Anime Recommendation Engine</title>
+    <h2>Anime Recommendation Engine</h2>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script>
+		  $(document).ready(function()
+		  {
+		    $("#user_id_form").submit(function(){
+			  var user_id = $("#user_id").val();
+			  alert(user_id);
+
+			  $.ajax({
+			    url: "/movies_watched",
+			    type: 'POST',
+			    data: JSON.stringify({ "user_id" : user_id } ),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+			    async: 'true',
+			    success: function(data){
+			      alert('within');
+			      alert(JSON.stringify(data));
+				  $("#movies_watched").append(JSON.stringify(data));
+			    }
+			  });
+
+			  alert(user_id);
+			  $.ajax({
+			    url: "/recommended_movies",
+			    type: 'POST',
+			    data: JSON.stringify({ "user_id" : user_id } ),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+			    async: 'true',
+			    success: function(data){
+			      alert('within2');
+			      alert(JSON.stringify(data));
+				  $("#recommended_movies").append(JSON.stringify(data));
+			    }
+			  });
+			  alert(user_id);
+			});
+		  });
+	  </script>
+  </head>
+
+  <body>
+
+	<div id='header'>
+	</div>
+	
+	<div id='content'>
+	
+	  <div id='user_id_form_div' align="right">
+        <form id='user_id_form'>
+          <input type="text" id="user_id" placeholder="user id"> <input type="submit" value=">">
+        </form>
+	  </div>
+
+	  <div id='top_movies' >
+		  <h5>Top Movies</h5>
+	  </div>
+
+	  <div id='movies_watched'>
+          <h5>Movies Watched</h5>
+	  </div>
+
+	  <div id='recommended_movies'>
+		  <h5>Recommended Movies</h5>
+	  </div>
+	
+	</div>
+	
+	<div id='footer'>
+	</div>
+	
+  </body>
+</html>
+

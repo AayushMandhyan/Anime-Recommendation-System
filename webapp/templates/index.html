@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <title>Anime Recommendation Engine</title>
+	<link rel="stylesheet" type="text/css" href="static/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script>
+		  $(document).ready(function()
+		  {
+		    $.ajax({
+			  url: "/top_movies",
+			  type: 'POST',
+			  async: 'true',
+			  success: function(data){
+				$("#top_movies").append(data);
+			  }
+			});
+
+		  	$("#user_id_form").submit(function(){
+			  var user_id = $("#user_id").val();
+
+			  $.ajax({
+			    url: "/movies_watched",
+			    type: 'POST',
+			    data: JSON.stringify({ "user_id" : user_id } ),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+			    async: 'true',
+			    success: function(data){
+			      $("#user").text("User Id: "+data["user"]);
+			      $("#movies_watched").empty();
+				  $("#movies_watched").append(data["value"]);
+			    }
+			  });
+
+			  $.ajax({
+			    url: "/recommended_movies",
+			    type: 'POST',
+			    data: JSON.stringify({ "user_id" : user_id } ),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+			    async: 'true',
+			    success: function(data){
+			      $("#recommended_movies").empty();
+				  $("#recommended_movies").append(data);
+			    }
+			  });
+
+			});
+		  });
+	  </script>
+  </head>
+
+  <body>
+   <div class="container">
+
+	<div id='header' class='header'>
+		<h1 style="color:gray;" align="center">Anime Recommendation Engine</h1><br><br>
+	</div>
+	
+	<div id='content'>
+	
+	  <div id='user_id_form_div' onsubmit="return false">
+        <form id='user_id_form'>
+			<input style="color:gray;" type="text" id="user_id" placeholder="user id"> <input style="color:gray;" type="submit" value=">">&emsp;<strong style="color:gray;" id="user"></strong><br>
+        </form>
+	  </div>
+
+	  <div id='top_movies' style='overflow-x:auto;'>
+		  <h5 style="color:gray;">Top Anime</h5>
+	  </div>
+
+	  <div id='movies_watched' style='overflow-x:auto;'>
+
+	  </div>
+
+	  <div id='recommended_movies' style='overflow-x:auto;'>
+
+	  </div>
+	
+	</div>
+	
+	<div id='footer'>
+	</div>
+
+   </div>
+  </body>
+</html>
+
